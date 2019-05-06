@@ -3,7 +3,25 @@
 
 ## Overview
 
-## Build the Application
+The POI (Point Of Interests) API collects the points of the trip when a hard stop or hard acceleration was detected.
+
+## Environment Variables
+
+- SQL_SERVER
+- SQL_DBNAME
+- SQL_USER
+- SQL_PASSWORD
+- WEB_PORT
+- WEB_SERVER_BASE_URI
+- ASPNETCORE_ENVIRONMENT
+
+## Build and run the Application
+
+```bash
+dotnet restore
+dotnet build
+dotnet run
+```
 
 ## Tests
 
