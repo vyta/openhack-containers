@@ -1,4 +1,4 @@
-module github.com/Azure-Samples/openhack-devops-team/apis/trips
+module app
 
 require (
 	cloud.google.com/go v0.0.0-20180627205256-45528feae6df // indirect

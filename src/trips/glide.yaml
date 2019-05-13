@@ -1,4 +1,4 @@
-package: github.com/Azure-Samples/openhack-devops-team/apis/trips
+package: app
 import:
 - package: github.com/codemodus/swagui
   version: ~0.1.0
