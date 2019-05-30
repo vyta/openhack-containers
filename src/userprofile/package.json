@@ -6,6 +6,7 @@
         "type": "git",
         "url": "git://github.com/Azure-Samples/openhack-devops-team.git"
     },
+    "license": "UNLICENSED",
     "bugs": "http://github.com/Azure-Samples/openhack-devops-team/issues",
     "dependencies": {
         "body-parser": "^1.18.3",
