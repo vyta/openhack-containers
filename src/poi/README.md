@@ -31,7 +31,7 @@ dotnet run
 
 ## References
 
-* [Web API](https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc?view=aspnetcore-2.1)
+* [Web API](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api)
 * [Unit Testing](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test?view=aspnetcore-2.1)
 * [Integration Testing](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-2.1)
 * [Example - How to Debug .NET Core Xunit Tests](https://github.com/nickolasacosta/dotnetcore-xunit-debugging)
