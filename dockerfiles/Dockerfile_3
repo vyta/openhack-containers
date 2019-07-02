@@ -12,7 +12,7 @@ COPY ./appsettings.*.json /app/out/
 COPY ./appsettings.json /app/out/
 
 # build runtime image
-FROM microsoft/dotnet:2.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.1-sdk
 WORKDIR /app
 
 ENV SQL_USER="adminuser" \
