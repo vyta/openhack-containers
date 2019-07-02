@@ -1,8 +1,10 @@
 ﻿namespace Simulator.DataStore.Stores
 {
+    using Newtonsoft.Json;
     using Simulator.DataObjects;
     using System.Collections.Generic;
     using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
     public class UserStore : BaseStore//, IBaseStore<User>
@@ -30,8 +32,8 @@
             HttpResponseMessage response = await Client.GetAsync("api/user/");
             if (response.IsSuccessStatusCode)
             {
-                response.Content.Headers.ContentType.MediaType = "application/json";
-                users = await response.Content.ReadAsAsync<List<User>>();
+                var str = await response.Content.ReadAsStringAsync();
+                users = JsonConvert.DeserializeObject<List<User>>(str);
             }
             return users;
         }
