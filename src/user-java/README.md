@@ -13,6 +13,15 @@ You can view the api documentation in swagger-ui by pointing to
 
 Change default port value in `src/main/resources/application.properties`
 
+## API Paths
+
+- /api/user-java
+- /api/healthcheck/user-java
+- /api/documentation/user-java
+- /api/docs/user-java
+- /api/swagger-resources
+- /api/api-docs
+
 ## Build the project
 
 1. Install Maven [https://maven.apache.org/install.html](https://maven.apache.org/install.html) and setup the environment path accordingly

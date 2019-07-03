@@ -15,6 +15,13 @@ The POI (Point Of Interests) API collects the points of the trip when a hard sto
 - WEB_SERVER_BASE_URI
 - ASPNETCORE_ENVIRONMENT
 
+## API Paths
+
+- /api/poi
+- /api/healthcheck/poi
+- /api/docs/poi
+- /swagger/docs/poi
+
 ## Build and run the Application
 
 ```bash
