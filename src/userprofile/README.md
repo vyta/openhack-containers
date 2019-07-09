@@ -4,33 +4,41 @@ This is the User Profile API for the Trip Insights service.
 
 ## Dependencies
 
-The User Profile API has a dependency on a SQL Server compatible database to hold the user profiles.
+The User Profile API has a dependency on a SQL Server compatible database to store the user profiles.
 
 ## API Paths
 
-| Method  | Path                   |Description                                               |
-|---------|------------------------|----------------------------------------------------------|
-| GET     | /api/user/{id}         | Fetch the UserProfile for a specific user                |
-| GET     | /api/healthcheck/user  | Return the healthcheck status for the UserProfile API    |
-| GET     | /api/docs/user         | Return the OpenAPI documentation for the UserProfile API |
+| Method  | Path                   |Description                                                |
+|---------|------------------------|-----------------------------------------------------------|
+| GET     | /api/user              | List all the user profiles                                |
+| GET     | /api/user/{id}         | Fetch the user profile for a specific user                |
+| POST    | /api/user/{id}         | Create a new user profile                                 |
+| PATCH   | /api/user/{id}         | Update an existing user profile                           |
+| DELETE  | /api/user/{id}         | Delete an existing user profile                           |
+| GET     | /api/healthcheck/user  | Return the healthcheck status for the User Profile API    |
+| GET     | /api/docs/user         | Return the OpenAPI documentation for the User Profile API |
 
 
 ## Configuration
 
 The User Profile API is configured via the variables in the table below.
 
-The value for a variable may be specified via an environment variable (ENV) or as the contents of a file. If the `CONFIG_FILES_PATH` environment variable is specified, then configuration values are expected to be available in files located in the specified base path.
+The value for a configuration variable may be specified via an environment variable (ENV) or as the contents of a file. If the file method is used, then the filename must be the name of the variable. The following describes the precedence used for obtaining a configuration value:
 
-If the environment variable or file is not provided and there is a default value available, then the default value will be used.
+1. Content of file located in `CONFIG_FILES_PATH` path. Example: `/configmnt/SQL_USER`
+2. Value of environment variable. Example: `$SQL_USER`
+3. Default value for configuration variable. Example: `sqladmin`
 
-| Name                      | Type        | Default Value | Description                                   |
-|---------------------------|-------------|---------------|-----------------------------------------------|
-| PORT                      | ENV         | 80            | The port that the API service will listen on. |
-| CONFIG_FILES_PATH         | ENV         |               | The base path for file based variables.       |
-| SQL_USER                  | ENV or File | sqladmin      | The username for the SQL Server database.     |
-| SQL_PASSWORD              | ENV or File |               | The password for the SQL Server database.     |
-| SQL_SERVER                | ENV or File |               | The server name for the SQL Server database.  |
-| SQL_DBNAME                | ENV or File | mydrivingDB   | The name of the SQL Server database.          |
+If the environment variable or file is not provided and there is a default value available, then the default value will be used. If no value is provided for `CONFIG_FILES_PATH`, then only environment variables will be used. If there is no value provided and no default available for a required configuration variable, then an error will be thrown.
+
+| Name                 | Required | Type        | Default Value | Description                                   |
+|----------------------|----------|-------------|---------------|-----------------------------------------------|
+| PORT                 | No       |ENV          | 80            | The port that the API service will listen on. |
+| CONFIG_FILES_PATH    | No       |ENV          |               | The base path for file based variables.       |
+| SQL_USER             | Yes      | ENV or File | sqladmin      | The username for the SQL Server database.     |
+| SQL_PASSWORD         | Yes      | ENV or File |               | The password for the SQL Server database.     |
+| SQL_SERVER           | Yes      | ENV or File |               | The server name for the SQL Server database.  |
+| SQL_DBNAME           | Yes      | ENV or File | mydrivingDB   | The name of the SQL Server database.          |
 
 ## Run in Docker
 
