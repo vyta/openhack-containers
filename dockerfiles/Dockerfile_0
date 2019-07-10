@@ -11,14 +11,15 @@ ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
 ARG IMAGE_SOURCE_REVISION
 
-ENV SQL_USER="sqladmin" \
+ENV PORT=80 \
+    SQL_USER="sqladmin" \
     SQL_PASSWORD="changeme" \
     SQL_SERVER="changeme.database.windows.net" \
     SQL_DBNAME="mydrivingDB"
 
 # Metadata as defined in OCI image spec annotations - https://github.com/opencontainers/image-spec/blob/master/annotations.md
-LABEL org.opencontainers.image.title="Trip Insights - User API" \
-      org.opencontainers.image.description="The User API component forms part of the Trip Insights application." \
+LABEL org.opencontainers.image.title="Trip Insights - User Profile (Java) API" \
+      org.opencontainers.image.description="The User Profile (Java) API component forms part of the Trip Insights application." \
       org.opencontainers.image.created=$IMAGE_CREATE_DATE \
       org.opencontainers.image.version=$IMAGE_VERSION \
       org.opencontainers.image.authors="Microsoft" \
@@ -42,5 +43,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=build-env target/swagger-spring-1.0.0.jar app.jar
 
 # run application
-EXPOSE 80
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.cloud.kubernetes.secrets.enabled=true", "-Dspring.cloud.kubernetes.secrets.paths=/configmnt", "-jar","/app.jar"]
+EXPOSE $PORT
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.cloud.kubernetes.secrets.enabled=true", "-Dspring.cloud.kubernetes.secrets.paths=/secrets", "-jar","/app.jar"]
