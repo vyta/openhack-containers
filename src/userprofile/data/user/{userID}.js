@@ -47,7 +47,7 @@ module.exports = {
         201: function (req, res, callback) {
             
             req.sql(queries.INSERT_USER_PROFILE)
-                .param('UserProfileJson', req.body, TYPES.NVarChar)
+                .param('UserProfileJson', JSON.stringify(req.body), TYPES.VarChar)
                 .exec(res);
             callback;
         
