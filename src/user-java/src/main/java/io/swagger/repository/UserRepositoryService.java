@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Service
 public class UserRepositoryService {
@@ -61,7 +62,7 @@ public class UserRepositoryService {
 
     private Profile findOne(String Id) {
         Preconditions.checkNotNull(Id, "User Id cannot be null");
-        return userRepository.findOne(Id);
+        return this.userRepository.getOne(Id);        
     }
 
 }
