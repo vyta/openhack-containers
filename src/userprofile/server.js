@@ -50,9 +50,14 @@ var logger = morgan(':remote-addr [:date[web]] :method :url HTTP/:http-version :
 App.use(logger);
 
 var sqlConfig = {
-    userName:   sqlUser,
-    password:   sqlPassword,
-    server:     sqlServer,
+    server: sqlServer,
+    authentication: {
+        type: "default",
+        options: {
+            userName: sqlUser,
+            password: sqlPassword
+        }
+    },
     options: {
         encrypt: true,
         database: sqlDBName,
