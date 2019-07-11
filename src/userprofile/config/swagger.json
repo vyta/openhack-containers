@@ -1,9 +1,9 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "API for the user profile in the My Driving example app. https://github.com/Azure-Samples/openhack-devops",
+        "description": "API for the user profile in the Trip Insights app. https://github.com/vyta/openhack-containers",
         "version": "0.1.0",
-        "title": "My Driving User Profile API"
+        "title": "Trip Insights User Profile API"
     },
     "basePath": "/api",
     "schemes": [
