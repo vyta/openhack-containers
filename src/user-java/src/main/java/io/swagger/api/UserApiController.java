@@ -55,6 +55,7 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
+                profile.setId(userID);
                 return new ResponseEntity<Profile>(userRepositoryService.save(profile), HttpStatus.OK);
             } catch (Exception e) {
                 log.error("Couldn't create new profile", e.getMessage());

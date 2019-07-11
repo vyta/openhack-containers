@@ -60,7 +60,7 @@ public class UserRepositoryServiceTest {
 
     @Test
     public void testUpdate() {
-        when(userRepository.findOne(ID)).thenReturn(profile);
+        when(userRepository.getOne(ID)).thenReturn(profile);
         profile.setRanking(ranking);
         profile.setTotalDistance(distance);
         when(userRepository.save(profile)).thenReturn(profile);
@@ -69,9 +69,9 @@ public class UserRepositoryServiceTest {
         assertEquals(distance, updated.getTotalDistance());
     }
 
-    @Test
+    // This is now unnecessary with the latest version of Spring Data JPA.
     public void testUpdate_shouldThrowException() {
-        when(userRepository.findOne(USER_ID)).thenReturn(null);
+        when(userRepository.getOne(USER_ID)).thenReturn(null);
         try {
             userRepositoryService.update(profile);
             fail("Unable to locate user");
