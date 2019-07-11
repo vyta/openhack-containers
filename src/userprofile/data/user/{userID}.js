@@ -46,8 +46,10 @@ module.exports = {
     post: {
         201: function (req, res, callback) {
             
+            var user = req.body;
+            user.Id = req.params.userID;
             req.sql(queries.INSERT_USER_PROFILE)
-                .param('UserProfileJson', req.body, TYPES.NVarChar)
+                .param('UserProfileJson', JSON.stringify(user), TYPES.VarChar)
                 .exec(res);
             callback;
         
@@ -75,9 +77,11 @@ module.exports = {
     patch: {
         200: function (req, res, callback) {
  
-            req.sql('EXEC UpdateProductFromJson @id, @json')
-                .param('json', req.body, TYPES.NVarChar)
-                .param('id', req.params.id, TYPES.Int)
+            var user = req.body;
+            user.Id = req.params.userID;
+            req.sql(queries.UPDATE_USER_PROFILE)
+                .param('UserProfileJson', JSON.stringify(user), TYPES.VarChar)
+                .param('user_profile_id', req.params.userID, TYPES.NVarChar)
                 .exec(res);
             callback;
             
