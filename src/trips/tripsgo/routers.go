@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	du   = flag.String("du", getEnv("DOCS_URI", "http://localhost:8080"), "docs endpoint")
-	wsbu = flag.String("wsbu", getEnv("WEB_SERVER_BASE_URI", "changeme"), "base portion of server uri")
+	du   = flag.String("du", getEnv("OPENAPI_DOCS_URI", "http://localhost:8080"), "docs endpoint")
+	//wsbu = flag.String("wsbu", getEnv("WEB_SERVER_BASE_URI", "changeme"), "base portion of server uri")
 )
 
 // Route - object representing a route handler

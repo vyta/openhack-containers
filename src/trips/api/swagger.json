@@ -1,8 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "0.0.1",
-    "title": "MyDriving Trips API"
+    "description": "API for the trips in the Trip Insights app. https://github.com/vyta/openhack-containers",
+    "version": "0.1.0",
+    "title": "Trip Insights Trips API"
   },
   "basePath": "/api",
   "schemes": [
