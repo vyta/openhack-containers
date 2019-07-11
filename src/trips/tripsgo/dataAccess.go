@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 func getEnv(key, fallback string) string {
@@ -15,13 +17,38 @@ func getEnv(key, fallback string) string {
 	return fallback
 }
 
+func writeConfigMessage(name string, value string, srcType string, src string) {
+	msg := ""
+	if value == "" {
+		msg = "no "
+	}
+	fmt.Printf("Config '%s' has %svalue set from %s '%s'.\n", name, msg, srcType, src)
+}
+
+func getConfigValue(name string, fallback string) string {
+	value := ""
+
+	configFilesPath := getEnv("CONFIG_FILES_PATH", "/secrets")
+	filePath := filepath.Join(configFilesPath, name)
+	filevalue, _ := ioutil.ReadFile(filePath)
+	value = string(filevalue)
+	writeConfigMessage(name, value, "file", filePath)
+
+	if value == "" {
+		value = getEnv(name, fallback)
+		writeConfigMessage(name, value, "ENV", name)
+	}
+
+	return value
+}
+
 var (
 	debug    = flag.Bool("debug", false, "enable debugging")
-	password = flag.String("password", getEnv("SQL_PASSWORD", "changeme"), "the database password")
+	password = flag.String("password", getConfigValue("SQL_PASSWORD", "changeme"), "the database password")
 	port     = flag.Int("port", 1433, "the database port")
-	server   = flag.String("server", getEnv("SQL_SERVER", "changeme.database.windows.net"), "the database server")
-	user     = flag.String("user", getEnv("SQL_USER", "YourUserName"), "the database user")
-	database = flag.String("d", getEnv("SQL_DBNAME", "mydrivingDB"), "db_name")
+	server   = flag.String("server", getConfigValue("SQL_SERVER", "changeme.database.windows.net"), "the database server")
+	user     = flag.String("user", getConfigValue("SQL_USER", "sqladmin"), "the database user")
+	database = flag.String("d", getConfigValue("SQL_DBNAME", "mydrivingDB"), "db_name")
 )
 
 // ExecuteNonQuery - Execute a SQL query that has no records returned (Ex. Delete)

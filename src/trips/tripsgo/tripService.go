@@ -45,7 +45,7 @@ func getTripByID(w http.ResponseWriter, r *http.Request) {
 		&trip.HardStops,
 		&trip.HardAccelerations,
 		&trip.Distance,
-		&trip.Created,
+		&trip.CreatedAt,
 		&trip.UpdatedAt)
 
 	if errScan != nil {
@@ -93,7 +93,7 @@ func getAllTrips(w http.ResponseWriter, r *http.Request) {
 			&r.HardStops,
 			&r.HardAccelerations,
 			&r.Distance,
-			&r.Created,
+			&r.CreatedAt,
 			&r.UpdatedAt)
 
 		if err != nil {
@@ -143,7 +143,7 @@ func getAllTripsForUser(w http.ResponseWriter, r *http.Request) {
 			&r.HardStops,
 			&r.HardAccelerations,
 			&r.Distance,
-			&r.Created,
+			&r.CreatedAt,
 			&r.UpdatedAt)
 
 		if err != nil {

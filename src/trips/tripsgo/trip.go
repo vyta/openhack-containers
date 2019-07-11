@@ -35,7 +35,7 @@ type Trip struct {
 
 	Distance float32 `json:"Distance"`
 
-	Created time.Time `json:"Created"`
+	CreatedAt time.Time `json:"CreatedAt"`
 
 	UpdatedAt time.Time `json:"UpdatedAt"`
 
