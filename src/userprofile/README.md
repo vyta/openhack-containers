@@ -83,11 +83,16 @@ Create a new user profile with id `aa1d876a-3e37-4a7a-8c9b-769ee6217ec2`.
 $ curl -s -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "Deleted": false, "FirstName": "Hacker","FuelConsumption": 0,"HardAccelerations": 0,"HardStops": 0, "LastName": "Test","MaxSpeed": 0,"ProfilePictureUri": "https://pbs.twimg.com/profile_images/1003946090146693122/IdMjh-FQ_bigger.jpg", "Ranking": 0,"Rating": 0, "TotalDistance": 0, "TotalTime": 0, "TotalTrips": 0,  "UserId": "hacker2" }' 'http://localhost:8080/api/user/aa1d876a-3e37-4a7a-8c9b-769ee6217ec2' | jq
 ```
 
-
-Update the `fuelConsumption` and `hardStops` values for an existing user profile with id of `aa1d876a-3e37-4a7a-8c9b-769ee6217ec2`.
+Update the `FuelConsumption` and `HardStops` values for an existing user profile with id of `aa1d876a-3e37-4a7a-8c9b-769ee6217ec2`.
 
 ```bash
-$ curl -s -X PATCH --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "fuelConsumption":20, "hardStops":74371 }' 'http://localhost:8080/api/user/aa1d876a-3e37-4a7a-8c9b-769ee6217ec2' | jq
+$ curl -s -X PATCH --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "FuelConsumption":20, "HardStops":74371 }' 'http://localhost:8080/api/user/aa1d876a-3e37-4a7a-8c9b-769ee6217ec2' | jq
+```
+
+Delete the user profile for id `aa1d876a-3e37-4a7a-8c9b-769ee6217ec2`.
+
+```bash
+$ curl -s -X DELETE 'http://localhost:8080/api/user/aa1d876a-3e37-4a7a-8c9b-769ee6217ec2'
 ```
 
 Get healthcheck status
