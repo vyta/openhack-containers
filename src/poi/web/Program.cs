@@ -27,8 +27,8 @@ namespace poi
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) {
             //used to read env variables for host/port
             var configuration = new ConfigurationBuilder()
-            .AddEnvironmentVariables()
-            .Build();
+                .AddEnvironmentVariables()
+                .Build();
 
             var host = new WebHostBuilder()
                 .UseKestrel()
@@ -48,6 +48,7 @@ namespace poi
                     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
                     config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
                     config.AddEnvironmentVariables();
+                    config.AddKeyPerFile(directoryPath: "/secrets", optional: true);
                     config.AddCommandLine(args);
                 })
                 .UseStartup<Startup>()

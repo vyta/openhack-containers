@@ -43,7 +43,7 @@ namespace poi
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("docs", new Info { Title = "Points Of Interest(POI) API", Version = "v1" });
+                c.SwaggerDoc("docs", new Info { Title = "Trip Insights Points Of Interest (POI) API", Description = "API for the trips in the Trip Insights app. https://github.com/vyta/openhack-containers", Version = "v1" });
             });
         }
 
@@ -67,7 +67,7 @@ namespace poi
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/docs/poi/swagger.json", "Points Of Interest(POI) API V1");
+                c.SwaggerEndpoint("/swagger/docs/poi/swagger.json", "Trip Insights Points Of Interest (POI) API V1");
                 c.DocumentTitle = "POI Swagger UI";
                 c.RoutePrefix = "api/docs/poi";
             });

@@ -1,4 +1,7 @@
-FROM microsoft/dotnet:2.1-sdk AS build-env
+# 
+# builder - first stage to build the application
+# 
+FROM mcr.microsoft.com/dotnet/core/sdk:2.1 AS build-env
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
@@ -11,19 +14,51 @@ RUN dotnet publish -c Release -o out
 COPY ./appsettings.*.json /app/out/
 COPY ./appsettings.json /app/out/
 
-# build runtime image
-FROM microsoft/dotnet:2.1-sdk
+# ------------------------------------------------
+
+# 
+# runtime - build final runtime image
+# 
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-alpine
+
+ARG IMAGE_CREATE_DATE
+ARG IMAGE_VERSION
+ARG IMAGE_SOURCE_REVISION
+
+ENV SQL_USER="sqladmin" \
+    SQL_PASSWORD="changeme" \
+    SQL_SERVER="changeme.database.windows.net" \
+    SQL_DBNAME="mydrivingDB" \
+    WEB_PORT=80 \
+    WEB_SERVER_BASE_URI="http://0.0.0.0" \
+    ASPNETCORE_ENVIRONMENT="Development"
+
+# Metadata as defined in OCI image spec annotations - https://github.com/opencontainers/image-spec/blob/master/annotations.md
+LABEL org.opencontainers.image.title="Trip Insights - POI (Points Of Interest) API" \
+      org.opencontainers.image.description="The POI (Points Of Interest) API component forms part of the Trip Insights application." \
+      org.opencontainers.image.created=$IMAGE_CREATE_DATE \
+      org.opencontainers.image.version=$IMAGE_VERSION \
+      org.opencontainers.image.authors="Microsoft" \
+      org.opencontainers.image.url="https://github.com/vyta/openhack-containers/blob/master/dockerfiles/Dockerfile_3" \
+      org.opencontainers.image.documentation="https://github.com/vyta/openhack-containers/blob/master/src/poi/README.md" \
+      org.opencontainers.image.vendor="Microsoft" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.source="https://github.com/vyta/openhack-containers.git" \
+      org.opencontainers.image.revision=$IMAGE_SOURCE_REVISION 
+
+# add debugging utilities
+RUN apk --no-cache add \
+  curl \
+  ca-certificates \
+  jq \
+  less \
+  vim
+
+# add the application to the container
 WORKDIR /app
-
-ENV SQL_USER="adminuser" \
-SQL_PASSWORD="changeme" \
-SQL_SERVER="changeme.database.windows.net" \
-SQL_DBNAME="mydrivingDB" \
-WEB_PORT="8080" \
-WEB_SERVER_BASE_URI="http://0.0.0.0" \
-ASPNETCORE_ENVIRONMENT="Production"
-
 COPY --from=build-env /app/out .
 
+# run application
+EXPOSE $WEB_PORT
 ENTRYPOINT ["dotnet", "<changeme>.dll"]
 
