@@ -5,7 +5,7 @@ variables:
   PROJECT_NAME: tripinsights
   SQL_PASSWORD: localtestpw123
 
-  jobs:
+jobs:
   - job: Images
     steps:
       - script: |
