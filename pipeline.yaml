@@ -6,8 +6,6 @@ stages:
   displayName: Build stage
   jobs:
   - job: Trips
-    pool:
-      vmImage: 'Hosted Ubuntu 1604'
     steps:
       - script: |
           docker build --no-cache \
@@ -29,8 +27,6 @@ stages:
   dependsOn: Build
   jobs:
   - job: Test
-    pool:
-      vmImage: 'Hosted Ubuntu 1604'
     steps:
       - task: DownloadBuildArtifacts@0
         inputs:
