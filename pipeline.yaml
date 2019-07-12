@@ -1,27 +1,41 @@
 trigger:
 - pipeline
 
+variables:
+  PROJECT_NAME: tripinsights
+
 stages:
 - stage: Build
   displayName: Build
   jobs:
   - job: Trips
+  strategy:
+    matrix:
+      trips:
+        IMAGE_NAME: 'trips'
+        IMAGE_VERSION: '1.0'
+        DOCKER_FILE: 'dockerfiles/Dockerfile_4'
+      user-java:
+        IMAGE_NAME: 'user-java'
+        IMAGE_VERSION: '1.0'
+        DOCKER_FILE: 'dockerfiles/Dockerfile_0'
+    
     steps:
       - script: |
           docker build --no-cache \
-          --build-arg IMAGE_VERSION="1.0" \
+          --build-arg IMAGE_VERSION=$(IMAGE_VERSION) \
           --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
           --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" \
-          -f dockerfiles/Dockerfile_4 \
-          -t "tripinsights/trips:1.0" \
-          src/trips
+          -f $(DOCKER_FILE) \
+          -t "$(PROJECT_NAME)/$(IMAGE_NAME):$(IMAGE_VERSION)" \
+          src/$(IMAGE_NAME)
 
-          docker save -o $(Build.ArtifactStagingDirectory)/trips.tar tripinsights/trips:1.0
-        displayName: 'Build Trips docker image'
+          docker save -o $(Build.ArtifactStagingDirectory)/$(IMAGE_NAME).tar $(PROJECT_NAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
+        displayName: 'Build docker image'
       - task: PublishBuildArtifacts@1
         inputs:
           pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          artifactName: trips
+          artifactName: '$(IMAGE_NAME)'
 
 - stage: Test
   displayName: Test stage
@@ -35,9 +49,18 @@ stages:
           downloadType: 'single'
           artifactName: 'trips'
           downloadPath: '$(System.ArtifactsDirectory)'
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'user-java'
+          downloadPath: '$(System.ArtifactsDirectory)'
       - script: |
           docker load < $(System.ArtifactsDirectory)/trips/trips.tar
+          docker load < $(System.ArtifactsDirectory)/user-java/user-java.tar
           docker run -d --name trips tripinsights/trips:1.0
+          docker run -d --name user-java tripinsights/user-java:1.0
           docker ps
           docker stop trips
+          docker stop user-java
         displayName: 'Run Trips docker image'
