@@ -9,17 +9,17 @@ stages:
   displayName: Build
   jobs:
   - job: Trips
-  strategy:
-    matrix:
-      trips:
-        IMAGE_NAME: 'trips'
-        IMAGE_VERSION: '1.0'
-        DOCKER_FILE: 'dockerfiles/Dockerfile_4'
-      user-java:
-        IMAGE_NAME: 'user-java'
-        IMAGE_VERSION: '1.0'
-        DOCKER_FILE: 'dockerfiles/Dockerfile_0'
-    
+    strategy:
+      matrix:
+        trips:
+          IMAGE_NAME: 'trips'
+          IMAGE_VERSION: '1.0'
+          DOCKER_FILE: 'dockerfiles/Dockerfile_4'
+        user-java:
+          IMAGE_NAME: 'user-java'
+          IMAGE_VERSION: '1.0'
+          DOCKER_FILE: 'dockerfiles/Dockerfile_0'
+      
     steps:
       - script: |
           docker build --no-cache \
