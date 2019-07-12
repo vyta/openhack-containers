@@ -9,8 +9,8 @@ jobs:
   - job: Images
     steps:
       - script: |
-          ls
-          docker-compose build --no-cache \
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o ./
+          ./docker-compose build -f docker-compose.yaml --no-cache \
             --parallel \
             --build-arg IMAGE_VERSION=1.0 \
             --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
