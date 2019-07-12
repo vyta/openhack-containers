@@ -5,14 +5,32 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.1 AS build-env
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
-COPY *.csproj ./
+COPY *.sln .
+COPY web/*.csproj ./web/
+COPY tests/IntegrationTests/*.csproj ./tests/IntegrationTests/
+COPY tests/UnitTests/*.csproj ./tests/UnitTests/
 RUN dotnet restore
 
 # copy everything else and build
 COPY . ./
+WORKDIR /app/web
+RUN dotnet build
+
+# ------------------------------------------------
+
+FROM build-env AS unit-test
+WORKDIR /app/tests/UnitTests
+RUN dotnet test
+
+FROM build-env AS integration-test
+WORKDIR /app/tests/IntegrationTests
+RUN dotnet test
+
+FROM build-env AS publish
+WORKDIR /app/web
 RUN dotnet publish -c Release -o out
-COPY ./appsettings.*.json /app/out/
-COPY ./appsettings.json /app/out/
+COPY ./web/appsettings.*.json /app/web/out/
+COPY ./web/appsettings.json /app/web/out/
 
 # ------------------------------------------------
 
@@ -56,9 +74,9 @@ RUN apk --no-cache add \
 
 # add the application to the container
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=build-publish /app/web/out .
 
 # run application
 EXPOSE $WEB_PORT
-ENTRYPOINT ["dotnet", "<changeme>.dll"]
+ENTRYPOINT ["dotnet", "poi.dll"]
 
