@@ -10,6 +10,9 @@ jobs:
     steps:
       - script: |
           sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o ./docker-compose
+          sudo chmod +x ./docker-compose
+        displayName: 'Get latest version of docker compose for parallel build of images (should be able to remove later)'
+      - script: |
           ./docker-compose build --no-cache \
             --parallel \
             --build-arg IMAGE_VERSION=1.0 \
