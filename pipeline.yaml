@@ -9,6 +9,7 @@ jobs:
   - job: Images
     steps:
       - script: |
+          ls
           docker-compose build --no-cache \
             --parallel \
             --build-arg IMAGE_VERSION=1.0 \
