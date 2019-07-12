@@ -3,6 +3,7 @@ trigger:
 
 variables:
   PROJECT_NAME: tripinsights
+  SQL_PASSWORD: localtestpw123
 
 stages:
 - stage: Build
@@ -54,6 +55,7 @@ stages:
   dependsOn: Build
   jobs:
   - job: Test
+    # there has to be a better way to download all the files but had trouble with docs so leaving to another time
     steps:
       - task: DownloadBuildArtifacts@0
         inputs:
@@ -67,12 +69,104 @@ stages:
           downloadType: 'single'
           artifactName: 'user-java'
           downloadPath: '$(System.ArtifactsDirectory)'
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'userprofile'
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'poi'
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'tripviewer'
+          downloadPath: '$(System.ArtifactsDirectory)'
       - script: |
           docker load < $(System.ArtifactsDirectory)/trips/trips.tar
           docker load < $(System.ArtifactsDirectory)/user-java/user-java.tar
-          docker run -d --name trips tripinsights/trips:1.0
-          docker run -d --name user-java tripinsights/user-java:1.0
+          docker load < $(System.ArtifactsDirectory)/userprofile/userprofile.tar
+          docker load < $(System.ArtifactsDirectory)/poi/poi.tar
+          docker load < $(System.ArtifactsDirectory)/tripviewer/tripviewer.tar
+        displayName: 'Load docker images'
+      - script: |
+          docker network create $(PROJECT_NAME)
+        displayName: 'Create docker network'
+      - script: |
+          docker run -d \
+            --network $(PROJECT_NAME) \
+            -e 'ACCEPT_EULA=Y' \
+            -e 'MSSQL_SA_PASSWORD=$(SQL_PASSWORD)' \
+            --name 'sqltestdb' \
+            -p 1433:1433 \
+            mcr.microsoft.com/mssql/server:2017-latest
+
+          docker exec -it sqltestdb /opt/mssql-tools/bin/sqlcmd \
+            -S localhost -U SA -P '$(SQL_PASSWORD)' \
+            -Q "CREATE DATABASE mydrivingDB"
+
+          docker run -d \
+            --network $(PROJECT_NAME) \
+            --name dataload \
+            --image vyta/data-load:v1 \
+            -e "SQLFQDN=sqltestdb" \
+            -e "SQLUSER=sa" \
+            -e "SQLPASS=$(SQL_PASSWORD)"" \
+            -e "SQLDB=mydrivingDB"
+        displayName: 'Set up SQL Server'
+      - script: | 
+          docker run -d \
+            --network $(PROJECT_NAME) \
+            -p 8080:80 \
+            --name poi \
+            -e "SQL_PASSWORD=$(SQL_PASSWORD)" \
+            -e "SQL_SERVER=sqltestdb" \
+            -e "SQL_USER=sa" \
+            -e "ASPNETCORE_ENVIRONMENT=Development" \
+            tripinsights/poi:1.0
+
+          docker run -d \
+            --network $(PROJECT_NAME) \
+            -p 8080:80 \
+            --name trips \
+            -e "SQL_PASSWORD=$(SQL_PASSWORD)" \
+            -e "SQL_SERVER=sqltestdb" \
+            -e "SQL_USER=sa" \
+            -e "DOCS_URI=http://$EXTERNAL_IP" \
+            tripinsights/trips:1.0
+
+          docker run -d \
+            --network $(PROJECT_NAME) \
+            -p 8080:80 \
+            --name user-java \
+            -e "SQL_PASSWORD=$(SQL_PASSWORD)" \
+            -e "SQL_SERVER=sqltestdb" \
+            -e "SQL_USER=sa" \
+            tripinsights/user-java:1.0 
+
+          docker run -d \
+            --network $(PROJECT_NAME) \
+            -p 8080:80 \
+            --name userprofile \
+            -e "SQL_PASSWORD=$(SQL_PASSWORD)" \
+            -e "SQL_SERVER=sqltestdb" \
+            -e "SQL_USER=sa" \
+            tripinsights/userprofile:1.0
+
           docker ps
+        displayName: 'Run Trips docker images'
+      - script: |
+          curl -s -X GET 'http://localhost:8080/api/poi'
+        displayName: 'Run tests'
+      - script: | 
           docker stop trips
           docker stop user-java
-        displayName: 'Run Trips docker image'
+          docker stop userprofile
+          docker stop poi
+        displayName: 'Stop Trips docker images'
+      
