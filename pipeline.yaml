@@ -8,17 +8,29 @@ stages:
 - stage: Build
   displayName: Build
   jobs:
-  - job: Trips
+  - job: Images
     strategy:
       matrix:
-        trips:
+        Trips:
           IMAGE_NAME: 'trips'
           IMAGE_VERSION: '1.0'
           DOCKER_FILE: 'dockerfiles/Dockerfile_4'
-        user-java:
+        User-java:
           IMAGE_NAME: 'user-java'
           IMAGE_VERSION: '1.0'
           DOCKER_FILE: 'dockerfiles/Dockerfile_0'
+        Userprofile:
+          IMAGE_NAME: 'userprofile'
+          IMAGE_VERSION: '1.0'
+          DOCKER_FILE: 'dockerfiles/Dockerfile_2'
+        Points-of-interest:
+          IMAGE_NAME: 'poi'
+          IMAGE_VERSION: '1.0'
+          DOCKER_FILE: 'dockerfiles/Dockerfile_3'
+        TripViewer:
+          IMAGE_NAME: 'tripviewer'
+          IMAGE_VERSION: '1.0'
+          DOCKER_FILE: 'dockerfiles/Dockerfile_1'
       
     steps:
       - script: |
