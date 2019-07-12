@@ -35,7 +35,7 @@ stages:
           artifactName: 'trips'
           downloadPath: '$(System.ArtifactsDirectory)'
       - script: |
-          docker load < $(System.ArtifactsDirectory)/trips.tar
+          docker load < $(System.ArtifactsDirectory)/trips/trips.tar
           docker run -d -n trips tripinsights/trips:1.0
           docker ps
           docker stop trips
