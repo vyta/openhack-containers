@@ -5,95 +5,16 @@ variables:
   PROJECT_NAME: tripinsights
   SQL_PASSWORD: localtestpw123
 
-stages:
-- stage: Build
-  displayName: Build
   jobs:
   - job: Images
-    strategy:
-      matrix:
-        Trips:
-          IMAGE_NAME: 'trips'
-          IMAGE_VERSION: '1.0'
-          DOCKER_FILE: 'dockerfiles/Dockerfile_4'
-        User-java:
-          IMAGE_NAME: 'user-java'
-          IMAGE_VERSION: '1.0'
-          DOCKER_FILE: 'dockerfiles/Dockerfile_0'
-        Userprofile:
-          IMAGE_NAME: 'userprofile'
-          IMAGE_VERSION: '1.0'
-          DOCKER_FILE: 'dockerfiles/Dockerfile_2'
-        Points-of-interest:
-          IMAGE_NAME: 'poi'
-          IMAGE_VERSION: '1.0'
-          DOCKER_FILE: 'dockerfiles/Dockerfile_3'
-        TripViewer:
-          IMAGE_NAME: 'tripviewer'
-          IMAGE_VERSION: '1.0'
-          DOCKER_FILE: 'dockerfiles/Dockerfile_1'
-      
     steps:
       - script: |
-          docker build --no-cache \
-          --build-arg IMAGE_VERSION=$(IMAGE_VERSION) \
-          --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
-          --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" \
-          -f $(DOCKER_FILE) \
-          -t "$(PROJECT_NAME)/$(IMAGE_NAME):$(IMAGE_VERSION)" \
-          src/$(IMAGE_NAME)
-
-          docker save -o $(Build.ArtifactStagingDirectory)/$(IMAGE_NAME).tar $(PROJECT_NAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
-        displayName: 'Build docker image'
-      - task: PublishBuildArtifacts@1
-        inputs:
-          pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          artifactName: '$(IMAGE_NAME)'
-
-- stage: Test
-  displayName: Test stage
-  dependsOn: Build
-  jobs:
-  - job: Test
-    # there has to be a better way to download all the files but had trouble with docs so leaving to another time
-    steps:
-      - task: DownloadBuildArtifacts@0
-        inputs:
-          buildType: 'current'
-          downloadType: 'single'
-          artifactName: 'trips'
-          downloadPath: '$(System.ArtifactsDirectory)'
-      - task: DownloadBuildArtifacts@0
-        inputs:
-          buildType: 'current'
-          downloadType: 'single'
-          artifactName: 'user-java'
-          downloadPath: '$(System.ArtifactsDirectory)'
-      - task: DownloadBuildArtifacts@0
-        inputs:
-          buildType: 'current'
-          downloadType: 'single'
-          artifactName: 'userprofile'
-          downloadPath: '$(System.ArtifactsDirectory)'
-      - task: DownloadBuildArtifacts@0
-        inputs:
-          buildType: 'current'
-          downloadType: 'single'
-          artifactName: 'poi'
-          downloadPath: '$(System.ArtifactsDirectory)'
-      - task: DownloadBuildArtifacts@0
-        inputs:
-          buildType: 'current'
-          downloadType: 'single'
-          artifactName: 'tripviewer'
-          downloadPath: '$(System.ArtifactsDirectory)'
-      - script: |
-          docker load < $(System.ArtifactsDirectory)/trips/trips.tar
-          docker load < $(System.ArtifactsDirectory)/user-java/user-java.tar
-          docker load < $(System.ArtifactsDirectory)/userprofile/userprofile.tar
-          docker load < $(System.ArtifactsDirectory)/poi/poi.tar
-          docker load < $(System.ArtifactsDirectory)/tripviewer/tripviewer.tar
-        displayName: 'Load docker images'
+          docker-compose build --no-cache \
+            --parallel \
+            --build-arg IMAGE_VERSION=1.0 \
+            --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
+            --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`"
+        displayName: 'Build images'
       - script: |
           docker network create $(PROJECT_NAME)
         displayName: 'Create docker network'
@@ -106,7 +27,7 @@ stages:
             -p 1433:1433 \
             mcr.microsoft.com/mssql/server:2017-latest
 
-          docker exec -it sqltestdb /opt/mssql-tools/bin/sqlcmd \
+          docker exec sqltestdb /opt/mssql-tools/bin/sqlcmd \
             -S localhost -U SA -P '$(SQL_PASSWORD)' \
             -Q "CREATE DATABASE mydrivingDB"
 
@@ -132,7 +53,7 @@ stages:
 
           docker run -d \
             --network $(PROJECT_NAME) \
-            -p 8080:80 \
+            -p 8081:80 \
             --name trips \
             -e "SQL_PASSWORD=$(SQL_PASSWORD)" \
             -e "SQL_SERVER=sqltestdb" \
@@ -142,7 +63,7 @@ stages:
 
           docker run -d \
             --network $(PROJECT_NAME) \
-            -p 8080:80 \
+            -p 8082:80 \
             --name user-java \
             -e "SQL_PASSWORD=$(SQL_PASSWORD)" \
             -e "SQL_SERVER=sqltestdb" \
@@ -151,7 +72,7 @@ stages:
 
           docker run -d \
             --network $(PROJECT_NAME) \
-            -p 8080:80 \
+            -p 8083:80 \
             --name userprofile \
             -e "SQL_PASSWORD=$(SQL_PASSWORD)" \
             -e "SQL_SERVER=sqltestdb" \
