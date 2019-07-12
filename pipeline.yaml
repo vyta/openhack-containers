@@ -16,7 +16,7 @@ stages:
           -t "tripinsights/trips:1.0" \
           src/trips
 
-          docker save -o $env:BUILD_ARTIFACTSTAGINGDIRECTORY/trips.tar tripinsights/trips:1.0
+          docker save -o $(Build.ArtifactStagingDirectory)/trips.tar tripinsights/trips:1.0
       - task: PublishBuildArtifacts@1
         inputs:
           pathtoPublish: '$(Build.ArtifactStagingDirectory)'
