@@ -3,7 +3,7 @@ trigger:
 
 stages:
 - stage: Build
-  displayName: Build stage
+  displayName: Build
   jobs:
   - job: Trips
     steps:
@@ -17,6 +17,7 @@ stages:
           src/trips
 
           docker save -o $(Build.ArtifactStagingDirectory)/trips.tar tripinsights/trips:1.0
+        displayName: 'Build Trips docker image'
       - task: PublishBuildArtifacts@1
         inputs:
           pathtoPublish: '$(Build.ArtifactStagingDirectory)'
@@ -36,6 +37,7 @@ stages:
           downloadPath: '$(System.ArtifactsDirectory)'
       - script: |
           docker load < $(System.ArtifactsDirectory)/trips/trips.tar
-          docker run -d -n trips tripinsights/trips:1.0
+          docker run -d --name trips tripinsights/trips:1.0
           docker ps
           docker stop trips
+        displayName: 'Run Trips docker image'
