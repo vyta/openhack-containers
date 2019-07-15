@@ -3,7 +3,7 @@ trigger:
 
 variables:
   PROJECT_NAME: tripinsights
-  SQL_PASSWORD: localtestpw123
+  SQL_PASSWORD: 'localtestpw123$'
 
 jobs:
   - job: Images
@@ -38,11 +38,11 @@ jobs:
           docker run -d \
             --network $(PROJECT_NAME) \
             --name dataload \
-            --image vyta/data-load:v1 \
             -e "SQLFQDN=sqltestdb" \
             -e "SQLUSER=sa" \
-            -e "SQLPASS=$(SQL_PASSWORD)"" \
-            -e "SQLDB=mydrivingDB"
+            -e "SQLPASS=$(SQL_PASSWORD)" \
+            -e "SQLDB=mydrivingDB" \
+            vyta/data-load:v1
         displayName: 'Set up SQL Server'
       - script: | 
           docker run -d \

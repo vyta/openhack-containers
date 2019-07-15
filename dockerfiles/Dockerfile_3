@@ -1,7 +1,7 @@
 # 
 # builder - first stage to build the application
 # 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.1 AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
@@ -37,7 +37,7 @@ COPY ./web/appsettings.json /app/web/out/
 # 
 # runtime - build final runtime image
 # 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-alpine
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.6-alpine3.9
 
 ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
@@ -71,6 +71,8 @@ RUN apk --no-cache add \
   jq \
   less \
   vim
+
+RUN update-ca-certificates
 
 # add the application to the container
 WORKDIR /app
