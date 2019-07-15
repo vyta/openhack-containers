@@ -59,7 +59,6 @@ var sqlConfig = {
     },
     server: sqlServer,
     options: {
-      encrypt: true,
       database: sqlDBName
     }
 };
