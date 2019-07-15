@@ -3,7 +3,7 @@ trigger:
 
 variables:
   PROJECT_NAME: tripinsights
-  SQL_PASSWORD: 'localtestpw123$'
+  SQL_PASSWORD: localtestpw123$
 
 jobs:
   - job: Images
@@ -43,6 +43,10 @@ jobs:
             -e "SQLPASS=$(SQL_PASSWORD)" \
             -e "SQLDB=mydrivingDB" \
             vyta/data-load:v1
+
+            # give some time for data to load
+            sleep 20
+            docker logs dataload
         displayName: 'Set up SQL Server'
       - script: | 
           docker run -d \
@@ -86,10 +90,14 @@ jobs:
           docker ps
         displayName: 'Run Trips docker images'
       - script: |
-          curl --fail -X GET 'http://localhost:8080/api/poi'
-          curl --fail -X GET 'http://localhost:8081/api/trips'
-          curl --fail -X GET 'http://localhost:8083/api/user'
-          curl --fail -X PATCH --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "fuelConsumption":20, "hardStops":200 }' 'http://localhost:8082/api/user-java/aa1d876a-3e37-4a7a-8c9b-769ee6217ec1'  
+          printf "call poi"
+          curl -X GET 'http://localhost:8080/api/poi'
+          printf "call trips"
+          curl -X GET 'http://localhost:8081/api/trips'
+          printf "call user profile"
+          curl -X GET 'http://localhost:8083/api/user'
+          printf "update user profile"
+          curl -X PATCH --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "fuelConsumption":20, "hardStops":200 }' 'http://localhost:8082/api/user-java/aa1d876a-3e37-4a7a-8c9b-769ee6217ec1'  
         displayName: 'Run simple tests'
       - script: | 
           docker stop trips
