@@ -1,5 +1,8 @@
 trigger:
-- pipeline
+- master
+
+pr:
+- master
 
 variables:
   PROJECT_NAME: tripinsights
