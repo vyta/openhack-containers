@@ -1,10 +1,10 @@
-# TripViewer
+# Trip Viewer
 
-This is the TripViewer website for the Trip Insights service.
+This is the Trip Viewer website for the Trip Insights service.
 
 ## Dependencies
 
-The TripViewer website relies on the Trip Insights APIs to be reachable in order to display correct information.
+The Trip Viewer website relies on the Trip Insights APIs to be reachable in order to display correct information.
 
 ## Paths
 
@@ -12,13 +12,13 @@ The following paths are available on the site:
 
 | Method | Path | Description |
 | ------ | ---- | ----------- |
-| GET | / | Home page of the TripViewer site |
+| GET | / | Home page of the Trip Viewer site |
 | GET | /Trips | Displays a map and trip information. This path is dependent on the `trips API to function correctly |
 | GET | /UserProfile | Displays the user's profile. This path depends on the `userprofile` API to function correctly |
 
 ## Configuration
 
-The TripViewer site is configured via the variables in the table below.
+The Trip Viewer site is configured via the variables in the table below.
 
 The value for a configuration variable should be specified via an environment variable.
 
