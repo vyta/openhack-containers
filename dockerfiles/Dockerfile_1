@@ -18,6 +18,7 @@ ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
 ARG IMAGE_SOURCE_REVISION
 
+
 ENV TRIPS_API_ENDPOINT="http://endpoint" \
     USER_API_ENDPOINT="http://endpoint"
 
@@ -45,4 +46,5 @@ RUN apk --no-cache add \
 # add the application to the container
 WORKDIR /app
 COPY --from=build /publish .
+
 ENTRYPOINT ["dotnet", "TripViewer.dll"]
