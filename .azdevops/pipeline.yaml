@@ -16,7 +16,7 @@ jobs:
         displayName: 'Get latest version of docker compose for parallel build of images (should be able to remove later)'
         workingDirectory: .azdevops/
       - script: |
-          docker-compose build --no-cache \
+          ./docker-compose build --no-cache \
             --parallel \
             --build-arg IMAGE_VERSION=1.0 \
             --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
