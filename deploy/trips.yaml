@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips
+  labels:
+    app: trips
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trips
+  template:
+    metadata:
+      labels:
+        app: trips
+    spec:
+      containers:
+      - name: trips
+        image: registryet76720.azurecr.io/trips:latest
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: 500m
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: sql
+              key: server
+        - name: SQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: sql
+              key: database
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: sql
+              key: user
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql
+              key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trips
+spec:
+  selector:
+    app: trips
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
