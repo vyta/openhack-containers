@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.1 AS build-env
 WORKDIR /src
 
 COPY . .
-RUN dotnet publish "web/<changeme>.csproj" -c Release -o /publish
+RUN dotnet publish "web/TripViewer.csproj" -c Release -o /publish
 
 # ------------------------------------------------
 
@@ -45,4 +45,4 @@ RUN apk --no-cache add \
 # add the application to the container
 WORKDIR /app
 COPY --from=build /publish .
-ENTRYPOINT ["dotnet", "<changeme>.dll"]
+ENTRYPOINT ["dotnet", "TripViewer.dll"]
