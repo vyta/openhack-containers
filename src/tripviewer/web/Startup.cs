@@ -48,7 +48,6 @@ namespace TripViewer
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
             }
 
             app.UseStaticFiles();
