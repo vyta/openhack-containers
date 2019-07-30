@@ -1,7 +1,7 @@
 'use strict';
-var dataProvider = require('../../data/healthcheck/user.js');
+var dataProvider = require('../../data/user/healthcheck.js');
 /**
- * Operations on /healthcheck/user
+ * Operations on /user/healthcheck
  */
 module.exports = {
     /**

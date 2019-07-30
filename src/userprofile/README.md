@@ -15,7 +15,7 @@ The User Profile API has a dependency on a SQL Server compatible database to sto
 | POST    | /api/user/{id}         | Create a new user profile                                 |
 | PATCH   | /api/user/{id}         | Update an existing user profile                           |
 | DELETE  | /api/user/{id}         | Delete an existing user profile                           |
-| GET     | /api/healthcheck/user  | Return the healthcheck status for the User Profile API    |
+| GET     | /api/user/healthcheck  | Return the healthcheck status for the User Profile API    |
 | GET     | /api/docs/user         | Return the OpenAPI documentation for the User Profile API |
 
 
@@ -98,5 +98,5 @@ $ curl -s -X DELETE 'http://localhost:8080/api/user/aa1d876a-3e37-4a7a-8c9b-769e
 Get healthcheck status
 
 ```bash
-$ curl -s -X GET 'http://localhost:8080/api/healthcheck/user' | jq
+$ curl -s -X GET 'http://localhost:8080/api/user/healthcheck' | jq
 ```

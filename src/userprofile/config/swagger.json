@@ -16,7 +16,7 @@
         "application/json"
     ],
     "paths": {
-        "/healthcheck/user": {
+        "/user/healthcheck": {
             "x-swagger-router-controller": "healthcheck",
             "get": {
                 "description": "Returns healthcheck for systems looking to ensure API is up and operational",

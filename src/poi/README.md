@@ -15,7 +15,7 @@ The POI (Points Of Interest) API has a dependency on a SQL Server compatible dat
 | GET     | /api/poi/{ID}              | Fetch an existing point of interest                        |
 | POST    | /api/poi                   | Create a new point of interest                             |
 | GET     | /api/poi/trip/{tripID}     | List all the points of interest for the specified trip     |
-| GET     | /api/healthcheck/poi       | Return the healthcheck status for the POI API              |
+| GET     | /api/poi/healthcheck       | Return the healthcheck status for the POI API              |
 | GET     | /api/docs/poi              | Return the OpenAPI documentation for the POI API           |
 
 ## Additional Paths
@@ -101,5 +101,5 @@ $ curl -s -X GET 'http://localhost:8080/api/poi/trip/ea2f7ae0-3cef-49cb-b7d1-ce9
 Get healthcheck status
 
 ```bash
-$ curl -s -X GET 'http://localhost:8080/api/healthcheck/poi' | jq
+$ curl -s -X GET 'http://localhost:8080/api/poi/healthcheck' | jq
 ```

@@ -12,7 +12,7 @@ The User Profile (Java) API has a dependency on a SQL Server compatible database
 |---------|-----------------------------|------------------------------------------------------------------|
 | POST    | /api/user-java/{id}         | Create a new user profile                                        |
 | PATCH   | /api/user-java/{id}         | Update an existing user profile                                  |
-| GET     | /api/healthcheck/user-java  | Return the healthcheck status for the User Profile (Java) API    |
+| GET     | /api/user-java/healthcheck  | Return the healthcheck status for the User Profile (Java) API    |
 | GET     | /api/docs/user-java         | Return the OpenAPI documentation for the User Profile (Java) API |
 
 ## Additional Paths
@@ -85,5 +85,5 @@ $ curl -X PATCH --header 'Content-Type: application/json' --header 'Accept: appl
 Get healthcheck status
 
 ```bash
-$ curl -X GET 'http://localhost:8080/api/healthcheck/user-java'
+$ curl -X GET 'http://localhost:8080/api/user-java/healthcheck'
 ```

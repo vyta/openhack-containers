@@ -21,7 +21,7 @@ The Trips API has a dependency on a SQL Server compatible database to store the 
 | POST    | /api/trips/{tripID}/trippoints                | Create a new trip point for an existing trip                     |
 | PATCH   | /api/trips/{tripID}/trippoints/{tripPointID}  | Update an existing trip point for an existing trip               |
 | DELETE  | /api/trips/{tripID}/trippoints/{tripPointID}  | Delete an existing trip point for an existing trip               |
-| GET     | /api/healthcheck/trips                        | Return the healthcheck status for the Trips API                  |
+| GET     | /api/trips/healthcheck                        | Return the healthcheck status for the Trips API                  |
 | GET     | /api/docs/trips                               | Return the OpenAPI documentation for the Trips API               |
 
 ## Additional Paths
@@ -155,5 +155,5 @@ $ curl -s -X DELETE 'http://localhost:8080/api/trips/ea2f7ae0-3cef-49cb-b7d1-ce9
 Get healthcheck status
 
 ```bash
-$ curl -s -X GET 'http://localhost:8080/api/healthcheck/trips' | jq
+$ curl -s -X GET 'http://localhost:8080/api/trips/healthcheck' | jq
 ```
