@@ -25,6 +25,13 @@ namespace poi.Controllers
             return _context.POIs.ToList();
         }
 
+        [HttpGet("healthcheck", Name = "Healthcheck")]
+        [Produces("application/json", Type = typeof(Healthcheck))]
+        public IActionResult Get()
+        {
+            return Ok(new Healthcheck());
+        }
+
         [HttpGet("{ID}", Name = "GetPOIById")]
         [Produces("application/json", Type = typeof(POI))]
         public IActionResult GetById(string ID)
