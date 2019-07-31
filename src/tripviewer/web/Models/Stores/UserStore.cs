@@ -29,7 +29,7 @@
         public async Task<List<User>> GetItemsAsync()
         {
             List<User> users = null;
-            HttpResponseMessage response = await Client.GetAsync("api/user/");
+            HttpResponseMessage response = await Client.GetAsync("/api/user");
             if (response.IsSuccessStatusCode)
             {
                 var str = await response.Content.ReadAsStringAsync();

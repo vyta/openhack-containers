@@ -5,59 +5,58 @@ namespace Simulator.DataObjects
 
     public partial class User //: BaseDataObject
     {
-        [JsonProperty("id")]
+        [JsonProperty("Id")]
         public Guid Id { get; set; }
 
-        [JsonProperty("firstName")]
+        [JsonProperty("FirstName")]
         public string FirstName { get; set; }
 
-        [JsonProperty("lastName")]
-        [JsonConverter(typeof(ParseStringConverter))]
-        public long LastName { get; set; }
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
 
-        [JsonProperty("userId")]
+        [JsonProperty("UserId")]
         public string UserId { get; set; }
 
-        [JsonProperty("profilePictureUri")]
+        [JsonProperty("ProfilePictureUri")]
         public string ProfilePictureUri { get; set; }
 
-        [JsonProperty("rating")]
+        [JsonProperty("Rating")]
         public long Rating { get; set; }
 
-        [JsonProperty("ranking")]
+        [JsonProperty("Ranking")]
         public long Ranking { get; set; }
 
-        [JsonProperty("totalDistance")]
+        [JsonProperty("TotalDistance")]
         public double TotalDistance { get; set; }
 
-        [JsonProperty("totalTrips")]
+        [JsonProperty("TotalTrips")]
         public long TotalTrips { get; set; }
 
-        [JsonProperty("totalTime")]
+        [JsonProperty("TotalTime")]
         public long TotalTime { get; set; }
 
-        [JsonProperty("hardStops")]
+        [JsonProperty("HardStops")]
         public long HardStops { get; set; }
 
-        [JsonProperty("hardAccelerations")]
+        [JsonProperty("HardAccelerations")]
         public long HardAccelerations { get; set; }
 
-        [JsonProperty("fuelConsumption")]
+        [JsonProperty("FuelConsumption")]
         public long FuelConsumption { get; set; }
 
-        [JsonProperty("maxSpeed")]
+        [JsonProperty("MaxSpeed")]
         public long MaxSpeed { get; set; }
 
-        [JsonProperty("version")]
+        [JsonProperty("Version")]
         public string Version { get; set; }
 
-        [JsonProperty("createdAt")]
+        [JsonProperty("CreatedAt")]
         public DateTime CreatedAt { get; set; }
 
-        [JsonProperty("updatedAt")]
+        [JsonProperty("UpdatedAt")]
         public DateTime UpdatedAt { get; set; }
 
-        [JsonProperty("deleted")]
+        [JsonProperty("Deleted")]
         public bool Deleted { get; set; }
     }
 
