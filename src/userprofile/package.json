@@ -16,7 +16,7 @@
         "express": "^4.17.1",
         "express4-tedious": "^0.3.0",
         "extend": "^3.0.2",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.13",
         "morgan": "^1.9.1",
         "swagger-ui-express": "^4.0.6",
         "swaggerize-express": "^4.0.5",
