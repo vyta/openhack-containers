@@ -24,8 +24,13 @@ LABEL org.opencontainers.image.title="Trip Insights - User Profile API" \
       org.opencontainers.image.source="https://github.com/vyta/openhack-containers.git" \
       org.opencontainers.image.revision=$IMAGE_SOURCE_REVISION 
 
-# curl for debugging
-RUN apk --no-cache add curl 
+# add debugging utilities
+RUN apk --no-cache add \
+  curl \
+  ca-certificates \
+  jq \
+  less \
+  vim
 
 # bundle app and install dependencies 
 COPY . /app

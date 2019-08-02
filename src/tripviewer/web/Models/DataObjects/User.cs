@@ -5,59 +5,23 @@ namespace Simulator.DataObjects
 
     public partial class User //: BaseDataObject
     {
-        [JsonProperty("id")]
         public Guid Id { get; set; }
-
-        [JsonProperty("firstName")]
         public string FirstName { get; set; }
-
-        [JsonProperty("lastName")]
-        [JsonConverter(typeof(ParseStringConverter))]
-        public long LastName { get; set; }
-
-        [JsonProperty("userId")]
+        public string LastName { get; set; }
         public string UserId { get; set; }
-
-        [JsonProperty("profilePictureUri")]
         public string ProfilePictureUri { get; set; }
-
-        [JsonProperty("rating")]
         public long Rating { get; set; }
-
-        [JsonProperty("ranking")]
         public long Ranking { get; set; }
-
-        [JsonProperty("totalDistance")]
         public double TotalDistance { get; set; }
-
-        [JsonProperty("totalTrips")]
         public long TotalTrips { get; set; }
-
-        [JsonProperty("totalTime")]
         public long TotalTime { get; set; }
-
-        [JsonProperty("hardStops")]
         public long HardStops { get; set; }
-
-        [JsonProperty("hardAccelerations")]
         public long HardAccelerations { get; set; }
-
-        [JsonProperty("fuelConsumption")]
         public long FuelConsumption { get; set; }
-
-        [JsonProperty("maxSpeed")]
         public long MaxSpeed { get; set; }
-
-        [JsonProperty("version")]
         public string Version { get; set; }
-
-        [JsonProperty("createdAt")]
         public DateTime CreatedAt { get; set; }
-
-        [JsonProperty("updatedAt")]
         public DateTime UpdatedAt { get; set; }
-
-        [JsonProperty("deleted")]
         public bool Deleted { get; set; }
     }
 
