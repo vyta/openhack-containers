@@ -5,58 +5,23 @@ namespace Simulator.DataObjects
 
     public partial class User //: BaseDataObject
     {
-        [JsonProperty("Id")]
         public Guid Id { get; set; }
-
-        [JsonProperty("FirstName")]
         public string FirstName { get; set; }
-
-        [JsonProperty("LastName")]
         public string LastName { get; set; }
-
-        [JsonProperty("UserId")]
         public string UserId { get; set; }
-
-        [JsonProperty("ProfilePictureUri")]
         public string ProfilePictureUri { get; set; }
-
-        [JsonProperty("Rating")]
         public long Rating { get; set; }
-
-        [JsonProperty("Ranking")]
         public long Ranking { get; set; }
-
-        [JsonProperty("TotalDistance")]
         public double TotalDistance { get; set; }
-
-        [JsonProperty("TotalTrips")]
         public long TotalTrips { get; set; }
-
-        [JsonProperty("TotalTime")]
         public long TotalTime { get; set; }
-
-        [JsonProperty("HardStops")]
         public long HardStops { get; set; }
-
-        [JsonProperty("HardAccelerations")]
         public long HardAccelerations { get; set; }
-
-        [JsonProperty("FuelConsumption")]
         public long FuelConsumption { get; set; }
-
-        [JsonProperty("MaxSpeed")]
         public long MaxSpeed { get; set; }
-
-        [JsonProperty("Version")]
         public string Version { get; set; }
-
-        [JsonProperty("CreatedAt")]
         public DateTime CreatedAt { get; set; }
-
-        [JsonProperty("UpdatedAt")]
         public DateTime UpdatedAt { get; set; }
-
-        [JsonProperty("Deleted")]
         public bool Deleted { get; set; }
     }
 
