@@ -12,8 +12,8 @@ The following paths are available on the site:
 
 | Method | Path | Description |
 | ------ | ---- | ----------- |
-| GET | / | Home page of the TripViewer site |
-| GET | /Trips | Displays a map and trip information. This path is dependent on the `trips` API to function correctly |
+| GET | / | Home page of the Trip Viewer site |
+| GET | /Trip | Displays a map and trip information. This path is dependent on the `trips` API to function correctly |
 | GET | /UserProfile | Displays the user's profile. This path depends on the `userprofile` API to function correctly |
 
 ## Configuration
