@@ -43,7 +43,7 @@ ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
 ARG IMAGE_SOURCE_REVISION
 
-ENV SQL_USER="sqladmin" \
+ENV SQL_USER="sa" \
     SQL_PASSWORD="changeme" \
     SQL_SERVER="changeme.database.windows.net" \
     SQL_DBNAME="mydrivingDB" \
