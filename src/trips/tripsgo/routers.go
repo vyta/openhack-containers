@@ -9,6 +9,7 @@ import (
 
 	"github.com/codemodus/swagui"
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var (
@@ -36,6 +37,8 @@ func NewRouter() *mux.Router {
 
 	// add docs route
 	CreateDocsHandler(router, docsRoute)
+
+	router.Path("/metrics").Handler(promhttp.Handler())
 
 	return router
 }
