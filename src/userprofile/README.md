@@ -19,6 +19,12 @@ The User Profile API has a dependency on a SQL Server compatible database to sto
 | GET     | /api/docs/user         | Return the OpenAPI documentation for the User Profile API |
 
 
+The api has been intrumented using the [Express prometheus middleware](https://www.npmjs.com/package/express-prometheus-middleware).  
+
+| Method  | Path                          |Description                            |
+|---------|-------------------------------|---------------------------------------|
+| GET     | /metrics                      | includes information on requests    |
+
 ## Configuration
 
 The User Profile API is configured via the variables in the table below.
