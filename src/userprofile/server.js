@@ -10,7 +10,16 @@ var tediousExpress = require('express4-tedious');
 var morgan = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./config/swagger.json');
-const promMid = require('express-prometheus-middleware');
+const promBundle = require("express-prom-bundle");
+const metricsMiddleware = promBundle({
+    includeMethod: true, 
+    includePath: true, 
+    promClient: {
+    collectDefaultMetrics: {
+      timeout: 1000
+    }
+  }
+});
 
 // Configuration and potential overrides
 function getConfigValue(config) {
@@ -63,6 +72,9 @@ var sqlConfig = {
       database: sqlDBName
     }
 };
+
+App.use(metricsMiddleware);
+
 App.use(function (req, res, next) {
     req.sql = tediousExpress(sqlConfig);
     next();
@@ -78,12 +90,6 @@ App.use(Swaggerize({
     handlers: Path.resolve('./handlers')
 }));
 App.use('/api/docs/user', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-App.use(promMid({
-    metricsPath: '/metrics',
-    collectDefaultMetrics: true,
-    requestDurationBuckets: [0.1, 0.5, 1, 1.5],
-}));
 
 Server.listen(port, function () {
     App.swagger.api.host = this.address().address + ':' + this.address().port;
