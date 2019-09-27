@@ -32,7 +32,7 @@ The following paths must be allowed by any network appliance or gateway that is 
 |---------|-------------------------------|---------------------------------------|
 | GET     | /api/json                     | Required by the OpenAPI controller    |
 
-The api has been intrumented using the [Go Promethues library](https://github.com/prometheus/client_golang).  
+The api has been instrumented using the [Go Promethues library](https://github.com/prometheus/client_golang).  
 
 | Method  | Path                          |Description                            |
 |---------|-------------------------------|---------------------------------------|

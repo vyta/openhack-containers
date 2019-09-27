@@ -16,11 +16,11 @@ The following paths are available on the site:
 | GET | /Trip | Displays a map and trip information. This path is dependent on the `trips` API to function correctly |
 | GET | /UserProfile | Displays the user's profile. This path depends on the `userprofile` API to function correctly |
 
-The api has been intrumented using the [.Net Promethues library](https://github.com/prometheus-net/prometheus-net#prometheus-net).  For more information on metrics and configuration see [ASP.NET Core HTTP request metrics](https://github.com/prometheus-net/prometheus-net#aspnet-core-http-request-metrics)
+The api has been instrumented using the [.Net Promethues library](https://github.com/prometheus-net/prometheus-net#prometheus-net).  For more information on metrics and configuration see [ASP.NET Core HTTP request metrics](https://github.com/prometheus-net/prometheus-net#aspnet-core-http-request-metrics)
 
 | Method  | Path                          |Description                            |
 |---------|-------------------------------|---------------------------------------|
-| GET     | /metrics                      | includes number HTTP requests in progress, total number of received http requets, duration of requests    |
+| GET     | /metrics                      | includes number of HTTP requests in progress, total number of received http requets, duration of requests    |
 
 ## Configuration
 

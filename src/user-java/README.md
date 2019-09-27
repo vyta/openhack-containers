@@ -25,7 +25,7 @@ The following paths must be allowed by any network appliance or gateway that is 
 | GET     | /api/swagger-resources        | Required by the OpenAPI controller    |
 | GET     | /api/api-docs                 | Required by the OpenAPI controller    |
 
-The api has been intrumented using the [Springboot actuator with prometheus enabled](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-metrics-export-prometheus).  
+The api has been instrumented using the [Springboot actuator with prometheus enabled](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-metrics-export-prometheus).  
 
 | Method  | Path                          |Description                            |
 |---------|-------------------------------|---------------------------------------|
