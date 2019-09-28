@@ -15,6 +15,9 @@ using poi.Data;
 using poi.Utility;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Rewrite;
+using Prometheus;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace poi
 {
@@ -48,12 +51,34 @@ namespace poi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)
         {
+            // set up prometheus
+            app.UseMetricServer();
+            app.UseHttpMetrics();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+            }else{
+                // https://github.com/prometheus-net/prometheus-net#aspnet-core-http-request-metrics
+                // "You should use either UseExceptionHandler() or a custom exception handler middleware. 
+                // prometheus-net cannot see what the web host's default exception handler does and may report 
+                // the wrong HTTP status code for exceptions (e.g. 200 instead of 500)."
+                app.UseExceptionHandler(a => a.Run(async context =>
+                {
+                    // https://stackoverflow.com/a/55166404/697126
+                    // Should log but don't expose exception to user
+                    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                    var exception = exceptionHandlerPathFeature.Error;
+
+                    logger.LogError(exception, exception.Message);
+
+                    var result = JsonConvert.SerializeObject(new { error = "An error occurred.  Please try again." });
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(result);
+                }));
             }
 
             app.UseRewriter(new RewriteOptions().AddRedirect("(.*)api/docs/poi$", "$1api/docs/poi/index.html"));

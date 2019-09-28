@@ -26,6 +26,12 @@ The following paths must be allowed by any network appliance or gateway that is 
 |---------|-------------------------------|---------------------------------------|
 | GET     | /swagger/docs/poi             | Required by the OpenAPI controller    |
 
+The api has been instrumented using the [.Net Promethues library](https://github.com/prometheus-net/prometheus-net#prometheus-net).  For more information on metrics and configuration see [ASP.NET Core HTTP request metrics](https://github.com/prometheus-net/prometheus-net#aspnet-core-http-request-metrics)
+
+| Method  | Path                          |Description                            |
+|---------|-------------------------------|---------------------------------------|
+| GET     | /metrics                      | includes number of HTTP requests in progress, total number of received http requets, duration of requests    |
+
 ## Configuration
 
 The POI (Points Of Interest) API is configured via the variables in the table below.

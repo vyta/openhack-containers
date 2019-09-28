@@ -32,6 +32,12 @@ The following paths must be allowed by any network appliance or gateway that is 
 |---------|-------------------------------|---------------------------------------|
 | GET     | /api/json                     | Required by the OpenAPI controller    |
 
+The api has been instrumented using the [Go Promethues library](https://github.com/prometheus/client_golang).  
+
+| Method  | Path                          |Description                            |
+|---------|-------------------------------|---------------------------------------|
+| GET     | /metrics                      | includes information on requests    |
+
 ## Configuration
 
 The Trips API is configured via the variables in the table below.

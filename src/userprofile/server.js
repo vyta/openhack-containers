@@ -10,6 +10,16 @@ var tediousExpress = require('express4-tedious');
 var morgan = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./config/swagger.json');
+const promBundle = require("express-prom-bundle");
+const metricsMiddleware = promBundle({
+    includeMethod: true, 
+    includePath: true, 
+    promClient: {
+    collectDefaultMetrics: {
+      timeout: 1000
+    }
+  }
+});
 
 // Configuration and potential overrides
 function getConfigValue(config) {
@@ -62,6 +72,9 @@ var sqlConfig = {
       database: sqlDBName
     }
 };
+
+App.use(metricsMiddleware);
+
 App.use(function (req, res, next) {
     req.sql = tediousExpress(sqlConfig);
     next();
