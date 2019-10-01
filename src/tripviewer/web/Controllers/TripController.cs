@@ -26,18 +26,7 @@ namespace TripViewer.Controllers
             var teamendpoint = _envvars.TRIPS_API_ENDPOINT;
             var bingMapsKey = _envvars.BING_MAPS_KEY;
 
-            //Get trips
-            TripStore t = new TripStore(teamendpoint);
-            List<Trip> trips = t.GetItemsAsync().Result;
-            //Get Last Trip
-            var last = trips.Max(trip => trip.RecordedTimeStamp);
-            var tlast = from Trip latest in trips
-                        where latest.RecordedTimeStamp == last
-                        select latest;
-            //Get TripPoints
-            TripPointStore tps = new TripPointStore(teamendpoint);
-            List<TripPoint> tripPoints = tps.GetItemsAsync(tlast.First()).Result;
-            
+            List<TripPoint> tripPoints = getRandomTripPoints();
             ViewData["MapKey"] = bingMapsKey;
             return View(tripPoints);
         }
@@ -45,24 +34,27 @@ namespace TripViewer.Controllers
         public PartialViewResult RenderMap()
         {
             var teamendpoint = _envvars.TRIPS_API_ENDPOINT;
+
+            List<TripPoint> tripPoints = getRandomTripPoints();
+            
+            return PartialView(tripPoints);
+        }
+
+        private List<TripPoint> getRandomTripPoints()
+        {
+            var teamendpoint = _envvars.TRIPS_API_ENDPOINT;
+
             //Get trips
             TripStore t = new TripStore(teamendpoint);
             List<Trip> trips = t.GetItemsAsync().Result;
-
-            if (trips.Count == 0){
-                return new List<TripPoint>();
-            } 
             
             //Get Random Trip
             var r = new Random();  
-            Trip randomTrip = trips.ElementAt(r.Next(0, trips.Count()));
+            Trip randomTrip = trips.ElementAt(r.Next(1, trips.Count()));
             
             //Get TripPoints
             TripPointStore tps = new TripPointStore(teamendpoint);
-            List<TripPoint> tripPoints = tps.GetItemsAsync(tlast.First()).Result;
-
-            
-            return PartialView(tripPoints);
+            return tps.GetItemsAsync(randomTrip).Result;
         }
     }
 }
