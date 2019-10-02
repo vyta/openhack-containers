@@ -48,11 +48,15 @@ namespace TripViewer.Controllers
             //Get trips
             TripStore t = new TripStore(teamendpoint);
             List<Trip> trips = t.GetItemsAsync().Result;
-            //Get Last Trip
-            var last = trips.Max(trip => trip.RecordedTimeStamp);
-            var tlast = from Trip latest in trips
-                        where latest.RecordedTimeStamp == last
-                        select latest;
+
+            if (trips.Count == 0){
+                return new List<TripPoint>();
+            } 
+            
+            //Get Random Trip
+            var r = new Random();  
+            Trip randomTrip = trips.ElementAt(r.Next(0, trips.Count()));
+            
             //Get TripPoints
             TripPointStore tps = new TripPointStore(teamendpoint);
             List<TripPoint> tripPoints = tps.GetItemsAsync(tlast.First()).Result;
