@@ -9,7 +9,7 @@
     "license": "UNLICENSED",
     "bugs": "http://github.com/Azure-Samples/openhack-devops-team/issues",
     "dependencies": {
-        "@hapi/hoek": "^7.1.0",
+        "@hapi/hoek": "^9.0.4",
         "@hapi/joi": "^15.0.3",
         "body-parser": "^1.19.0",
         "enjoi": "^4.0.0",
